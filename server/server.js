@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const bookRouter = require('./routes/book.router');
+const movieRouter = require('./routes/movie.router');
 // express static file serving - public is the folder name
 app.use( express.static('server/public') );
 // Setup body parser for POST
@@ -16,7 +17,6 @@ app.listen(PORT, () => {
 // Adding in app.use.  Way to plug stuff into the server.  Give it route you want it to match, then the router to go to.
 
 // Global variables below: 
-const movieList = [];
 
 
 
@@ -25,12 +25,5 @@ const movieList = [];
 // .use will direct GET, POST, PUT, DELETE options here.  HAVE to use '/book' to filter out the requests. Otherwise all data will go through '/'. 
 app.use('/book', bookRouter); // AKA when someone comes to server at whack book route, send them to bookRouter. 
 
+app.use('/movie', movieRouter);
 
-app.get('/movie', (req, res) => {
-  res.send(movieList);
-});
-
-app.post('/movie', (req, res) => {
-  movieList.push(req.body);
-  res.sendStatus(200);
-});
